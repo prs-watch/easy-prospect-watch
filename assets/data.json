@@ -1,0 +1,29 @@
+{
+    "data": [
+        {
+            "name": "VLADIMIR GUERRERO JR.",
+            "pos": "3B",
+            "rank": "1"
+        },
+        {
+            "name": "FERNANDO TATIS JR.",
+            "pos": "SS",
+            "rank": "2"
+        },
+        {
+            "name": "ELOY JIMENEZ",
+            "pos": "OF",
+            "rank": "3"
+        },
+        {
+            "name": "VICTOR ROBLES",
+            "pos": "OF",
+            "rank": "4"
+        },
+        {
+            "name": "KYLE TUCKER",
+            "pos": "OF",
+            "rank": "5"
+        }
+    ]
+}

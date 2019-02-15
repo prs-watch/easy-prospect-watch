@@ -7,34 +7,41 @@
                 </v-card-text>
             </v-flex>
             <v-flex xs4>
-                <v-text-field solo placeholder='Search'
-                    v-model='search' @input='extractItems'/>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs3 v-for="(item, index) in viewItems"
-                :key="getIndexStr(index)">
-                <v-card>
-                    <v-card-title>
-                        <div class='number white--text'>
-                            {{ item.rank }}
-                        </div>
-                        <v-img aspect-ratio='0.83'/>
-                    </v-card-title>
-                    <v-card-text class='font-weight-black'>
-                        <p>{{ item.name }}</p>
-                        <p class='blue-grey--text lighten-4'>
-                            {{ item.pos }}
-                        </p>
-                    </v-card-text>
-                </v-card>
+            <v-text-field solo placeholder='Search'
+                v-model='search' @input='extractItems'/>
             </v-flex>
         </v-layout>
+        <v-layout row wrap>
+            <v-flex xs3 v-for='(item, index) in viewItems'
+                :key='getIndexStr(index)'>
+                <card :item='item' @click-card='click'/>
+            </v-flex>
+        </v-layout>
+        <v-dialog v-model='modal'>
+            <v-card>
+                <v-layout>
+                    <v-flex xs2>
+                        <v-img :src='selectItem.image' aspect-ratio='0.9'/>
+                    </v-flex>
+                    <v-flex xs10>
+                        <v-card-title>
+                            <div>
+                                <p class='font-weight-bold'>{{ selectItem.name }} | {{ selectItem.team }} | Rank: {{ selectItem.rank }}</p>
+                                <div class='align-left'>
+                                    <p>{{ selectItem.description }}</p>
+                                </div>
+                            </div>
+                        </v-card-title>
+                    </v-flex>
+                </v-layout>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
 <script>
 import json from '~/assets/data.json'
+import card from '~/components/card'
 
 const data = json['data']
 
@@ -43,8 +50,13 @@ export default {
         return {
             items: [],
             viewItems: [],
-            search: ''
+            search: '',
+            modal: false,
+            selectItem: {}
         }
+    },
+    components: {
+        card
     },
     created() {
         this.items = data
@@ -64,6 +76,10 @@ export default {
                 }
             })
             self.viewItems = exItems
+        },
+        click(item) {
+            this.selectItem = item
+            this.modal = true
         }
     }
 }

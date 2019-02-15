@@ -25,6 +25,9 @@ module.exports = {
   */
   head: {
     title: 'easy-prospect-watch',
+    script: [
+        'node_modules/vuetify-upload-button/dist/upload-button.min.js'
+    ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

@@ -10,6 +10,15 @@
             <v-text-field solo placeholder='Search'
                 v-model='search' @input='extractItems'/>
             </v-flex>
+            <v-flex xs6>
+                <upload-btn title='UPLOAD YOUR RANKING!'
+                    large round color='light-blue' class='white--text'
+                    :fileChangedCallback='fileChanged'>
+                    <template slot='icon-left'>
+                        <v-icon left>add</v-icon>
+                    </template>
+                </upload-btn>
+            </v-flex>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs3 v-for='(item, index) in viewItems'
@@ -36,14 +45,15 @@
                 </v-layout>
             </v-card>
         </v-dialog>
+        <v-snackbar :top='top' v-model='snackbar' color='red'>
+            ERROR! Please upload csv extention file.
+        </v-snackbar>
     </v-container>
 </template>
 
 <script>
-import json from '~/assets/data.json'
 import card from '~/components/card'
-
-const data = json['data']
+import upload from 'vuetify-upload-button'
 
 export default {
     data() {
@@ -52,15 +62,14 @@ export default {
             viewItems: [],
             search: '',
             modal: false,
-            selectItem: {}
+            selectItem: {},
+            snackbar: false,
+            top: true
         }
     },
     components: {
-        card
-    },
-    created() {
-        this.items = data
-        this.viewItems = this.items
+        card,
+        'upload-btn': upload
     },
     methods: {
         getIndexStr(index) {
@@ -80,6 +89,31 @@ export default {
         click(item) {
             this.selectItem = item
             this.modal = true
+        },
+        fileChanged(file) {
+            const ext = file.name.split('.').pop().toLowerCase()
+            if (ext == 'csv') {
+                const reader = new FileReader()
+                // method called when success
+                reader.onload = () => {
+                    const rows = reader.result.trim().split('\n')
+                    const header = rows[0].split(',')
+                    rows.forEach((row, index) => {
+                        if (index != 0) {
+                            let item = {}
+                            const elms = row.split(',')
+                            elms.forEach((elm, elmIndex) => {
+                                item[header[elmIndex]] = elm
+                            })
+                            this.items.push(item)
+                            this.viewItems = this.items
+                        }
+                    })
+                }
+                reader.readAsText(file)
+            } else {
+                this.snackbar = true
+            }
         }
     }
 }

@@ -19,4 +19,7 @@ html {
 .align-left {
     text-align: left;
 }
+.align-right {
+    text-align: right;
+}
 </style>

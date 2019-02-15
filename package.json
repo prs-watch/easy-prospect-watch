@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "@nuxtjs/vuetify": "^0.5.4",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "vuetify-upload-button": "^1.2.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

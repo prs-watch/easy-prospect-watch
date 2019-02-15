@@ -106,9 +106,9 @@ export default {
                                 item[header[elmIndex]] = elm
                             })
                             this.items.push(item)
-                            this.viewItems = this.items
                         }
                     })
+                    this.viewItems = this.items
                 }
                 reader.readAsText(file)
             } else {
